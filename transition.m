@@ -15,15 +15,31 @@ y = zeros(S+1,1);
 v = zeros(S+1,1);
 
 for t = 1:(S+1) % From T to T + 100
+    N0(t) = N(t)/3;    %simplifying assumption TODO: find breakdown
+    Nc(t) = N(t)/3;    %simplifying assumption
+    % TODO: idea for solving Nc/Ni using dProfit with respect to Nc/Ni
+    Ng(t) = N(t)/3;    %simplifying assumption
     r(t) = alpha *K(t)^(alpha-1) * N0(t)^(1-alpha-nu) * E(t)^(nu);   %Retun on capital K
     w(t) = (1-alpha-nu)*K(t)^(alpha) * N0(t)^(-alpha-nu) * E(t)^(nu); %Wage
     pc(t) = w(t) / xic + tauc;  % price carbon energy
     pg(t) = w(t) / xig;         % price green energy
+    % TODO: solve for Ec
+    % TODO: solve for Eg using fsolve proficFOCenergy
+    Ng(t) = Eg(t) / xig;
+    Nc(t) = Ec(t) / xic;
     v(t) = tauw*N(t)*w(t) + tauc*xic*Nc(t); % Government's revenue
-    % c(t)
-    y(t) = G(t)^(a)*P(t)^b*N(t)^(1-a-b);
+    % TODO: intratemporal to solve for c
+    % 
+    % c(t) = 
+    s(t) = (1-tauw)*w(t)*N(t) + r(t)*K(t) + v(t) - c(t);
+    Ec(t) = xic * Nc(t);
+    Eg(t) = xig * Ng(t);
+    E(t) = energyOutput(TODO:PARAMETERS,Ec(t),Eg(t));
+    % ? 
+    y(t) = K(t)^alpha * N0(t)^(1-alpha-nu) * E(t)^(nu);
    % LMK?
 end
+
 
 % The Euler equation must hold in each period:
 zero = clead./ct - beta.*(rlead + 1 - delta); 
