@@ -15,10 +15,11 @@ y = zeros(S+1,1);
 v = zeros(S+1,1);
 
 for t = 1:(S+1) % From T to T + 100
-    r(t) = a*G(t)^(a-1)*(P(t)*(1-taup))^b*N(t)^(1-a-b); 
-    rp(t) = (1-taup)*b*G(t)^(a)*(P(t)*(1-taup))^(b-1)*N(t)^(1-a-b); % Return on capital p. Not 100% on derivative here. CHain rule.
-    w(t) = (1-a-b)*G(t)^(a)*(P(t)*(1-taup))^b*N(t)^(-a-b);
-    v(t) = taup*P(t) + tauw*w(t)*h(t); % Government's revenue
+    r(t) = alpha *K(t)^(alpha-1) * N0(t)^(1-alpha-nu) * E(t)^(nu);   %Retun on capital K
+    w(t) = (1-alpha-nu)*K(t)^(alpha) * N0(t)^(-alpha-nu) * E(t)^(nu); %Wage
+    pc(t) = w(t) / xic + tauc;  % price carbon energy
+    pg(t) = w(t) / xig;         % price green energy
+    v(t) = tauw*N(t)*w(t) + tauc*xic*Nc(t); % Government's revenue
     % c(t)
     y(t) = G(t)^(a)*P(t)^b*N(t)^(1-a-b);
    % LMK?
